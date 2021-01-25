@@ -3,7 +3,7 @@ import {Car} from '../models/car';
 import {TotalCostComponent} from '../total-cost/total-cost.component';
 import {CarsService} from '../cars.service';
 import {Router} from '@angular/router';
-import {FormBuilder, FormGroup} from '@angular/forms';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 
 @Component({
   selector: 'cs-cars-list',
@@ -29,17 +29,18 @@ export class CarsListComponent implements OnInit, AfterViewInit {
 
   buildCarForm(): FormGroup {
     return this.formBuilder.group({
-      model: '',
-      type: '',
-      plate: '',
-      deliveryDate: '',
-      deadline: '',
-      color: '',
-      power: '',
-      clientFirstName: '',
-      clientSurname: '',
-      cost: '',
-      isFullyDamaged: ''
+      model: ['', Validators.required],
+      type: ['', Validators.required],
+      year: ['', Validators.required],
+      color: ['', Validators.required],
+      cost: ['', Validators.required],
+      isFullyDamaged: '',
+      clientFirstName: ['', Validators.required],
+      clientSurname: ['', Validators.required],
+      power: ['', Validators.required],
+      plate: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(7)]],
+      deliveryDate: ['', Validators.required],
+      deadline: ['', Validators.required]
     });
   }
 
@@ -47,6 +48,12 @@ export class CarsListComponent implements OnInit, AfterViewInit {
     this.carsService.getCars().subscribe((cars) => {
       this.cars = cars;
       this.countTotalCost();
+    });
+  }
+
+  addCar(): void {
+    this.carsService.addCar(this.carForm.value).subscribe(() => {
+      this.loadCars();
     });
   }
 
