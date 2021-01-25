@@ -61,6 +61,13 @@ export class CarsListComponent implements OnInit, AfterViewInit {
     this.router.navigate(   ['/cars', car.id]);
   }
 
+  removeCar(car: Car, event): void {
+    event.stopPropagation();
+    this.carsService.removeCar(car.id).subscribe(() => {
+      this.loadCars();
+    });
+  }
+
   ngAfterViewInit(): void {
     this.totalCostRef.showGross();
   }

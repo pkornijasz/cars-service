@@ -29,4 +29,16 @@ export class CarsService {
     // console.log('Wywołano addCar');
     return this.http.post<Car>(this.apiUrl, car);
   }
+
+  updateCar(id: number, car: Car): Observable<Car> {
+    // @ts-ignore
+    return this.http.put(this.apiUrl + `/${id}`, car);
+    // .map((res) => res.json());
+  }
+
+  removeCar(id: number): Observable<Car> {
+    // @ts-ignore
+    return this.http.delete(this.apiUrl + `/${id}`);
+    // .map((res) => res.json());
+  }
 }
